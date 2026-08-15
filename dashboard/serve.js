@@ -25,7 +25,7 @@ fastify.get("*", (req, reply) => {
 });
 
 const port = Number(process.env.PORT) || 3002;
-fastify.listen({ port, host: '0.0.0.0' }, (err, address) => {
+fastify.listen({ port, host: "0.0.0.0" }, (err, address) => {
   if (err) {
     throw err;
   }
