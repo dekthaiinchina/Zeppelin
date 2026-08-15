@@ -160,7 +160,7 @@ export async function banUserId(
   noteDetails.push(timeDetails);
 
   const createdCase = await casesPlugin.createCase({
-    ...(banOptions.caseArgs || {}),
+    ...banOptions.caseArgs,
     userId,
     modId,
     type: CaseTypes.Ban,

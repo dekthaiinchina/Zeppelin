@@ -133,7 +133,7 @@ async function casesUserCmd(
         icon_url: user instanceof UnknownUser ? undefined : user.displayAvatarURL(),
       },
       description: linesInChunk.join("\n"),
-      fields: [...(isLastChunk ? [footerField] : [])],
+      fields: isLastChunk ? [footerField] : [],
     } satisfies APIEmbed;
 
     await sendContextResponse(context, { embeds: [embed], ephemeral: !show });
@@ -267,29 +267,31 @@ export async function actualCasesCmd(
     }
   }
 
-  user
-    ? await casesUserCmd(
-        pluginData,
-        context,
-        author.user,
-        modId!,
-        user,
-        modName,
-        typesToShow,
-        hidden,
-        expand,
-        show === true,
-      )
-    : await casesModCmd(
-        pluginData,
-        context,
-        author.user,
-        modId!,
-        mod ?? author,
-        modName,
-        typesToShow,
-        hidden,
-        expand,
-        show === true,
-      );
+  if (user) {
+    await casesUserCmd(
+      pluginData,
+      context,
+      author.user,
+      modId!,
+      user,
+      modName,
+      typesToShow,
+      hidden,
+      expand,
+      show === true,
+    );
+  } else {
+    await casesModCmd(
+      pluginData,
+      context,
+      author.user,
+      modId!,
+      mod ?? author,
+      modName,
+      typesToShow,
+      hidden,
+      expand,
+      show === true,
+    );
+  }
 }

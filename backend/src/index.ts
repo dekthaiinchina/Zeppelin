@@ -360,7 +360,7 @@ connect().then(async () => {
 
             return loaded;
           } catch (err) {
-            logger.error(`Error while loading config "${key}"`);
+            logger.error(`Error while loading config "${key}": ${err}`);
             return {};
           }
         }

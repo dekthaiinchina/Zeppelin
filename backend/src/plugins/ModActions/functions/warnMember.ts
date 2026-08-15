@@ -84,7 +84,7 @@ export async function warnMember(
 
   const casesPlugin = pluginData.getPlugin(CasesPlugin);
   const createdCase = await casesPlugin.createCase({
-    ...(warnOptions.caseArgs || {}),
+    ...warnOptions.caseArgs,
     userId: member.id,
     modId,
     type: CaseTypes.Warn,

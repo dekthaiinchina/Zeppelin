@@ -86,7 +86,7 @@ export async function kickMember(
   // Create a case for this action
   const casesPlugin = pluginData.getPlugin(CasesPlugin);
   const createdCase = await casesPlugin.createCase({
-    ...(kickOptions.caseArgs || {}),
+    ...kickOptions.caseArgs,
     userId: member.id,
     modId,
     type: CaseTypes.Kick,
