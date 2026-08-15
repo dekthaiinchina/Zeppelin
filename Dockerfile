@@ -1,6 +1,6 @@
 FROM node:24-alpine AS base
 
-RUN npm install -g pnpm@11.13.1
+RUN npm install -g pnpm@11.19.0
 
 COPY --chown=node:node . /zeppelin
 WORKDIR /zeppelin
