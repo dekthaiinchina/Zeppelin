@@ -8,6 +8,7 @@
     "build:backend": "pnpm --filter '@zeppelinbot/backend...' run build",
     "build:dashboard": "pnpm --filter '@zeppelinbot/dashboard...' run build",
     "format": "oxfmt",
+    "format:check": "oxfmt --check",
     "lint": "oxlint",
     "lint:fix": "oxlint --fix",
     "run:migrate": "cd backend && pnpm run migrate",
