@@ -2,6 +2,7 @@ name: zeppelin-dev
 
 volumes:
   home: {}
+  untrusted-home: {}
   mysql-data: {}
   redis-data: {}
 
@@ -36,15 +37,29 @@ services:
       - redis-data:/data
 
   devenv:
-    build:
+    build: &devenv-build
       context: ./docker/development/devenv
-      args:
+    init: true
+    environment:
         DEVELOPMENT_SSH_PASSWORD: ${DEVELOPMENT_SSH_PASSWORD:?Missing DEVELOPMENT_SSH_PASSWORD}
-        DEVELOPMENT_UID: ${DEVELOPMENT_UID:-1000}
     ports:
-      - "${DEVELOPMENT_SSH_PORT:?Missing DEVELOPMENT_SSH_PORT}:22"
+      - "127.0.0.1:${DEVELOPMENT_SSH_PORT:?Missing DEVELOPMENT_SSH_PORT}:22"
     volumes:
-      - home:/home/ubuntu
+      - home:/home/dev
+      - ./:/workspace/zeppelin
+    healthcheck:
+      test: ["CMD", "test", "-e", "/run/uid-ready"]
+      interval: 30s
+      start_period: 30s
+      start_interval: 200ms
+
+  # Utility container to run untrusted applications
+  # without sharing the main devenv's container and home dir
+  untrusted:
+    profiles: [manual]
+    build: *devenv-build
+    volumes:
+      - untrusted-home:/home/dev
       - ./:/workspace/zeppelin
 
   cftunnel:
